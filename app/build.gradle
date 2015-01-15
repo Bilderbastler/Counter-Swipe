@@ -19,11 +19,19 @@ android {
     }
 }
 
+apply plugin: 'android-unit-test'
+
+afterEvaluate {
+    tasks.findByName("assembleDebug").dependsOn("testDebugClasses")
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'org.roboguice:roboguice:3.+'
-    provided 'org.roboguice:roboblender:3.+'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
-    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
+    compile 'org.roboguice:roboguice:3.0.1'
+    provided 'org.roboguice:roboblender:3.0.1'
+
+    // testing
+    testCompile 'org.robolectric:robolectric:2.3'
+    testCompile 'junit:junit:4.12'
 }

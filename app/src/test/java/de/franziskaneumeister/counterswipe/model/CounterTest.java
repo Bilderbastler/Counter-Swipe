@@ -1,13 +1,22 @@
 package de.franziskaneumeister.counterswipe.model;
 
+import android.app.Application;
+
+import com.google.inject.Injector;
+
+import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 
 import java.util.List;
+
+import roboguice.RoboGuice;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -16,12 +25,21 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class CounterTest {
 
     private Counter sut;
+    private static Injector mInjector;
 
     @Before
     public void setup(){
+        Application application = Robolectric.application;
+        mInjector = RoboGuice.getOrCreateBaseApplicationInjector(application);
         sut = new Counter();
+        mInjector.injectMembers(sut);
     }
-   
+    
+    @After
+    public void tearDown(){
+        RoboGuice.Util.reset();
+    }
+
     @Test
     public void counterExists(){
         assertThat(sut).isNotNull();

@@ -73,4 +73,18 @@ public class CounterTest {
         List events = sut.getChanges();
         assertThat(events).isNotNull();
     }
+               
+    @Test
+    public void anIncrementAddsACounterChange(){
+        List events = sut.getChanges();
+        sut.increment();
+        assertThat(events).hasSize(1);
+    }
+
+    @Test
+    public void aDecrementAddsACounterChange(){
+        List events = sut.getChanges();
+        sut.decrement();
+        assertThat(events).hasSize(1);
+    }
 }

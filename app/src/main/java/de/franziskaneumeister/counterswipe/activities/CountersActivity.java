@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 
 import de.franziskaneumeister.counterswipe.R;
+import de.franziskaneumeister.counterswipe.fragments.CounterFragment;
 import roboguice.activity.RoboActionBarActivity;
 import roboguice.fragment.RoboFragment;
 import roboguice.inject.ContentView;
@@ -21,33 +22,27 @@ public class CountersActivity extends RoboActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+            getFragmentManager().beginTransaction()
+                    .add(R.id.container, new CounterFragment())
                     .commit();
         }
+        getFragmentManager().executePendingTransactions();
 
     }
     
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_counters, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -62,7 +57,7 @@ public class CountersActivity extends RoboActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_counters, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_placeholder, container, false);
             return rootView;
             
         }

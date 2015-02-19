@@ -1,3 +1,7 @@
+repositories {
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+}
+
 apply plugin: 'com.android.application'
 
 android {
@@ -32,7 +36,7 @@ dependencies {
     provided 'org.roboguice:roboblender:3.0.1'
 
     // testing
-    testCompile 'org.robolectric:robolectric:2.4'
+    testCompile "org.robolectric:robolectric:3.0-SNAPSHOT"
     testCompile 'junit:junit:4.12'
     compile 'com.squareup.assertj:assertj-android:1.0.0' // workaround for aar - remove with Proguard on release
     testCompile 'com.squareup.assertj:assertj-android:1.0.0'

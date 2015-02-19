@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 
@@ -29,7 +30,7 @@ public class CounterTest {
 
     @Before
     public void setup(){
-        Application application = Robolectric.application;
+        Application application = RuntimeEnvironment.application;
         mInjector = RoboGuice.getOrCreateBaseApplicationInjector(application);
         sut = new Counter();
         mInjector.injectMembers(sut);

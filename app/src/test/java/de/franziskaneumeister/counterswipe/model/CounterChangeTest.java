@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import roboguice.RoboGuice;
@@ -23,7 +24,7 @@ public class CounterChangeTest {
 
     @Before
     public void setup(){
-        Application application = Robolectric.application;
+        Application application = RuntimeEnvironment.application;
         Injector mInjector = RoboGuice.getOrCreateBaseApplicationInjector(application);
         sut = mInjector.getInstance(CounterChange.class);
     }

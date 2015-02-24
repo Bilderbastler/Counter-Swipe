@@ -1,10 +1,63 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="de.franziskaneumeister.counterswipe.fragments.CounterFragment">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/list_item_height_one_line"
+    tools:context="de.franziskaneumeister.counterswipe.fragments.CounterFragment"
+    tools:menu="menu_counters">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <FrameLayout
+        android:id="@+id/primary_action_container"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp">
 
-</FrameLayout>
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:adjustViewBounds="false"
+            android:scaleType="centerInside"
+            android:src="@drawable/primary_action_circle" />
+
+        <Button
+            android:id="@+id/button_plus"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:textColor="@color/primary_text_default_material_dark"
+            tools:text="23" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/counter_value"
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@id/primary_action_container"
+        android:layout_toLeftOf="@id/button_minus"
+        android:layout_toRightOf="@id/primary_action_container"
+        android:layout_toStartOf="@id/button_minus"
+        android:singleLine="true"
+        android:textSize="16dp"
+        tools:text="Television" />
+
+
+    <ImageButton
+        android:id="@+id/button_minus"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="2dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_minus_box_grey600_24dp"
+        android:textColor="@android:color/white" />
+
+</RelativeLayout>

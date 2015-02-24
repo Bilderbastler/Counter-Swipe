@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-
 import de.franziskaneumeister.counterswipe.R;
 import de.franziskaneumeister.counterswipe.fragments.CounterFragment;
 import roboguice.activity.RoboActionBarActivity;
@@ -29,7 +28,7 @@ public class CountersActivity extends RoboActionBarActivity {
         getFragmentManager().executePendingTransactions();
 
     }
-    
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -57,9 +56,9 @@ public class CountersActivity extends RoboActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_placeholder, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_counter, container, false);
             return rootView;
-            
+
         }
     }
 }

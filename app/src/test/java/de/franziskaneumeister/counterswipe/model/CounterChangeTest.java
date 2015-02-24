@@ -1,6 +1,7 @@
 package de.franziskaneumeister.counterswipe.model;
 
 import android.app.Application;
+import android.os.Bundle;
 
 import com.google.inject.Injector;
 
@@ -33,5 +34,13 @@ public class CounterChangeTest {
     public void changeObjectExists(){
         assertThat(sut).isNotNull();
     }
-    
+
+    @Test
+    public void testCanBePutInParcel() throws Exception {
+        Bundle bundle = new Bundle();
+        final String arg_key = "ARG_KEY";
+        bundle.putParcelable(arg_key, sut);
+        CounterChange extracted = bundle.getParcelable(arg_key);
+        assertThat(extracted).isNotNull();
+    }
 }

@@ -32,7 +32,19 @@
             tools:text="23" />
 
     </FrameLayout>
-
+    
+    <ImageButton
+        android:id="@+id/button_minus"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="2dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_minus_box_grey600_24dp"
+        android:textColor="@android:color/white" />
+    
     <TextView
         android:id="@+id/counter_value"
         style="@style/Base.TextAppearance.AppCompat.Title"
@@ -48,16 +60,6 @@
         tools:text="Television" />
 
 
-    <ImageButton
-        android:id="@+id/button_minus"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="2dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_minus_box_grey600_24dp"
-        android:textColor="@android:color/white" />
+
 
 </RelativeLayout>

@@ -1,73 +1,44 @@
 package de.franziskaneumeister.counterswipe.fragments;
 
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 
 import de.franziskaneumeister.counterswipe.R;
+import de.franziskaneumeister.counterswipe.model.Counter;
 
 /**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CounterFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CounterFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * Represents a single countable item. This fragment displays the state of a counter instance and 
+ * provides interaction logic for changing the state of a counter
  */
 public class CounterFragment extends RoboFragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CounterFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static CounterFragment newInstance(String param1, String param2) {
-        CounterFragment fragment = new CounterFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public CounterFragment() {
-        // Required empty public constructor
-    }
+    public static final String ARG_COUNTER = "de.franziskaneumeister.counterswipe.argument_counter";
+    private Counter mCounter;
+    @Inject
+    Injector mInjector;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mCounter = getArguments().getParcelable(ARG_COUNTER);
+            mInjector.injectMembers(mCounter);
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_counter, container, false);
-
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
+        View fragmentView = inflater.inflate(R.layout.fragment_counter, container, false);
+        Button plusButton = (Button) fragmentView.findViewById(R.id.button_plus);
+        String count = String.valueOf(mCounter.getCount());
+        plusButton.setText(count);
+        return fragmentView;
     }
 
 }

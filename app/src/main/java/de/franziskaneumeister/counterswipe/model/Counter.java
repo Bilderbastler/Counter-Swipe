@@ -9,19 +9,34 @@ import com.google.inject.Injector;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
+import rx.subjects.BehaviorSubject;
+
 /**
  * Dependencies need to be injected manualy after the object is recreated from a parcel*
  */
 public class Counter implements Parcelable{
 
+    private final BehaviorSubject<Integer> mCountChangePublisher;
     private int mCount;
-    private List mChanges;
+    private List<CounterChange> mChanges;
 
     @Inject
     protected Injector injector;
     
     public Counter(){
-        mChanges = new ArrayList();
+        mChanges = new ArrayList<>();
+        mCountChangePublisher = BehaviorSubject.create(0);
+    }
+
+    public Counter(int count, ArrayList<CounterChange> changes) {
+        mChanges= changes;
+        mCount = count;
+        mCountChangePublisher = BehaviorSubject.create(count);
+    }
+
+    public Observable<Integer> observeChanges(){
+        return mCountChangePublisher.asObservable();
     }
 
     public int getCount() {
@@ -37,6 +52,7 @@ public class Counter implements Parcelable{
     private void addChange() {
         CounterChange change = injector.getInstance(CounterChange.class);
         mChanges.add(change);
+        mCountChangePublisher.onNext(mCount);
     }
 
     public void decrement() {
@@ -63,7 +79,9 @@ public class Counter implements Parcelable{
 
         @Override
         public Counter createFromParcel(Parcel source) {
-            return null;
+            int count = source.readInt();
+            ArrayList<CounterChange> changes = source.readArrayList(CounterChange.class.getClassLoader());
+            return new Counter(count, changes);
         }
 
         @Override

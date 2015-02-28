@@ -34,7 +34,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'org.roboguice:roboguice:3.0.1'
     provided 'org.roboguice:roboblender:3.0.1'
-
+    compile 'io.reactivex:rxjava:1.0.7'
+    compile 'io.reactivex:rxandroid:0.24.0'
     // testing
     testCompile "org.robolectric:robolectric:3.0-SNAPSHOT"
     testCompile 'junit:junit:4.12'

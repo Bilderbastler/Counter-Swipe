@@ -11,9 +11,14 @@ import com.google.inject.Injector;
 
 import de.franziskaneumeister.counterswipe.R;
 import de.franziskaneumeister.counterswipe.model.Counter;
+import rx.Observable;
+import rx.Scheduler;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 
 /**
- * Represents a single countable item. This fragment displays the state of a counter instance and 
+ * Represents a single countable item. This fragment displays the state of a counter instance and
  * provides interaction logic for changing the state of a counter
  */
 public class CounterFragment extends RoboFragment {
@@ -21,9 +26,12 @@ public class CounterFragment extends RoboFragment {
     private Counter mCounter;
     @Inject
     Injector mInjector;
+    private Button plusButton;
+    private Subscription mCounterSubscribtion;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mCounter = getArguments().getParcelable(ARG_COUNTER);
@@ -35,10 +43,27 @@ public class CounterFragment extends RoboFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_counter, container, false);
-        Button plusButton = (Button) fragmentView.findViewById(R.id.button_plus);
-        String count = String.valueOf(mCounter.getCount());
-        plusButton.setText(count);
+        plusButton = (Button) fragmentView.findViewById(R.id.button_plus);
+        mCounterSubscribtion = mCounter.observeChanges()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Integer>() {
+                    @Override
+                    public void call(Integer count) {
+                        plusButton.setText(count.toString());
+                    }
+                });
+        plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCounter.increment();
+            }
+        });
         return fragmentView;
     }
 
+    @Override
+    public void onDestroy() {
+        mCounterSubscribtion.unsubscribe();
+        super.onDestroy();
+    }
 }

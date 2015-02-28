@@ -1,11 +1,9 @@
 package de.franziskaneumeister.counterswipe.fragments;
 
-import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageButton;
 
-import com.google.inject.Injector;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,33 +15,62 @@ import org.robolectric.util.FragmentTestUtil;
 import de.franziskaneumeister.counterswipe.R;
 import de.franziskaneumeister.counterswipe.model.Counter;
 import roboguice.RoboGuice;
+import roboguice.inject.RoboInjector;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
 
 @RunWith(RobolectricTestRunner.class)
  public class CounterFragmentTest {
 
     private CounterFragment sut;
-    private Counter counter;
+    private Counter mCounter;
+    private Button plusButton;
 
     @Before
     public void setUp() throws Exception {
-        Application application = RuntimeEnvironment.application;
-        Injector injector = RoboGuice.getOrCreateBaseApplicationInjector(application);
-        counter = injector.getInstance(Counter.class);
+        mCounter = spy(Counter.class);
+        Context application = RuntimeEnvironment.application;
+        RoboInjector injector = RoboGuice.getInjector(application);
+        injector.injectMembers(mCounter);
         Bundle args = new Bundle();
-        args.putParcelable(CounterFragment.ARG_COUNTER, counter);
+        // only works because the bundle is a shadow implementation
+        args.putParcelable(CounterFragment.ARG_COUNTER, mCounter);
         sut = new CounterFragment();
         sut.setArguments(args);
     }
 
     @Test
-    public void testFragmentShowsCounterValue() throws Exception {
-        counter.increment();
-        FragmentTestUtil.startVisibleFragment(sut);
-        Button plusButton = (Button) sut.getView().findViewById(R.id.button_plus);
+    public void fragmentShowsCounterValue() throws Exception {
+        mCounter.increment();
+        showFragment();
         int count = Integer.parseInt((String) plusButton.getText());
-        assertThat(count).isEqualTo(counter.getCount());
+        assertThat(count).isEqualTo(mCounter.getCount());
     }
+
+    @Test
+    public void pressingPrimaryButtonIncrementsCounterObject() throws Exception {
+        showFragment();
+        plusButton.performClick();
+        verify(mCounter).increment();
+    }
+
+    @Test
+    public void anIncrementOfTheCounterIsDisplayedByTheFragment() throws Exception {
+        int oldCount = mCounter.getCount();
+        showFragment();
+        mCounter.increment();
+        int count = Integer.parseInt((String) plusButton.getText());
+        assertThat(count).isGreaterThan(oldCount);
+    }
+
+    private void showFragment() {
+        FragmentTestUtil.startVisibleFragment(sut);
+        plusButton = (Button) sut.getView().findViewById(R.id.button_plus);
+    }
+
+
 }

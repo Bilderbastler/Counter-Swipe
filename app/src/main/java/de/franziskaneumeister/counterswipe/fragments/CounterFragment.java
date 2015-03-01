@@ -5,14 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import de.franziskaneumeister.counterswipe.R;
 import de.franziskaneumeister.counterswipe.model.Counter;
-import rx.Observable;
-import rx.Scheduler;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -28,10 +27,10 @@ public class CounterFragment extends RoboFragment {
     Injector mInjector;
     private Button plusButton;
     private Subscription mCounterSubscribtion;
+    private ImageButton minusButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mCounter = getArguments().getParcelable(ARG_COUNTER);
@@ -44,6 +43,12 @@ public class CounterFragment extends RoboFragment {
                              Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_counter, container, false);
         plusButton = (Button) fragmentView.findViewById(R.id.button_plus);
+        plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCounter.increment();
+            }
+        });
         mCounterSubscribtion = mCounter.observeChanges()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Integer>() {
@@ -52,10 +57,11 @@ public class CounterFragment extends RoboFragment {
                         plusButton.setText(count.toString());
                     }
                 });
-        plusButton.setOnClickListener(new View.OnClickListener() {
+        minusButton = (ImageButton) fragmentView.findViewById(R.id.button_minus);
+        minusButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCounter.increment();
+                mCounter.decrement();
             }
         });
         return fragmentView;

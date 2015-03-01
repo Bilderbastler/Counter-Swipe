@@ -3,6 +3,7 @@ package de.franziskaneumeister.counterswipe.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 
 import org.junit.Before;
@@ -18,7 +19,6 @@ import roboguice.RoboGuice;
 import roboguice.inject.RoboInjector;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
@@ -29,6 +29,7 @@ import static org.mockito.Mockito.verify;
     private CounterFragment sut;
     private Counter mCounter;
     private Button plusButton;
+    private ImageButton minusButton;
 
     @Before
     public void setUp() throws Exception {
@@ -52,7 +53,7 @@ import static org.mockito.Mockito.verify;
     }
 
     @Test
-    public void pressingPrimaryButtonIncrementsCounterObject() throws Exception {
+    public void pressingPrimaryActionButtonIncrementsCounterObject() throws Exception {
         showFragment();
         plusButton.performClick();
         verify(mCounter).increment();
@@ -67,9 +68,17 @@ import static org.mockito.Mockito.verify;
         assertThat(count).isGreaterThan(oldCount);
     }
 
+    @Test
+    public void pressingSecondaryActionButtonIncrementsCounterObject() throws Exception {
+        showFragment();
+        minusButton.performClick();
+        verify(mCounter).decrement();
+    }
+
     private void showFragment() {
         FragmentTestUtil.startVisibleFragment(sut);
         plusButton = (Button) sut.getView().findViewById(R.id.button_plus);
+        minusButton = (ImageButton) sut.getView().findViewById(R.id.button_minus);
     }
 
 

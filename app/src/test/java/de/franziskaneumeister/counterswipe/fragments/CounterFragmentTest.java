@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 
 import org.junit.Before;
@@ -21,6 +22,7 @@ import roboguice.inject.RoboInjector;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 @RunWith(RobolectricTestRunner.class)
@@ -73,6 +75,15 @@ import static org.mockito.Mockito.verify;
         showFragment();
         minusButton.performClick();
         verify(mCounter).decrement();
+    }
+
+    @Test
+    public void fragmentDisplaysNameFromCounter() throws Exception {
+        String testName = "this is a Test";
+        when(mCounter.getName()).thenReturn(testName);
+        showFragment();
+        TextView text = (TextView) sut.getView().findViewById(R.id.counter_value);
+        assertThat(text.getText()).isEqualTo(testName);
     }
 
     private void showFragment() {

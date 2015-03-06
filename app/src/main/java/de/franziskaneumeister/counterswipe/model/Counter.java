@@ -13,6 +13,7 @@ import rx.Observable;
 import rx.subjects.BehaviorSubject;
 
 /**
+ * Represents a counter with a count and a name for the counted items
  * Dependencies need to be injected manualy after the object is recreated from a parcel*
  */
 public class Counter implements Parcelable{
@@ -23,15 +24,18 @@ public class Counter implements Parcelable{
 
     @Inject
     protected Injector injector;
-    
+    private String mName;
+
     public Counter(){
+        mName = "unnamed Item";
         mChanges = new ArrayList<>();
         mCountChangePublisher = BehaviorSubject.create(0);
     }
 
-    public Counter(int count, ArrayList<CounterChange> changes) {
+    public Counter(int count, ArrayList<CounterChange> changes, String name) {
         mChanges= changes;
         mCount = count;
+        mName = name;
         mCountChangePublisher = BehaviorSubject.create(count);
     }
 
@@ -73,6 +77,7 @@ public class Counter implements Parcelable{
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(mCount);
         dest.writeList(mChanges);
+        dest.writeString(mName);
     }
     
     public static final Creator CREATOR = new Creator<Counter>(){
@@ -81,7 +86,8 @@ public class Counter implements Parcelable{
         public Counter createFromParcel(Parcel source) {
             int count = source.readInt();
             ArrayList<CounterChange> changes = source.readArrayList(CounterChange.class.getClassLoader());
-            return new Counter(count, changes);
+            String name = source.readString();
+            return new Counter(count, changes, name);
         }
 
         @Override
@@ -89,4 +95,8 @@ public class Counter implements Parcelable{
             return new Counter[size];
         }
     };
+
+    public String getName() {
+        return mName;
+    }
 }

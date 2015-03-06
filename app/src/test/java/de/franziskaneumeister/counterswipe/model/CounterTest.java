@@ -24,7 +24,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(emulateSdk = 18)
 public class CounterTest {
 
     private Counter sut;
@@ -106,5 +105,10 @@ public class CounterTest {
         }catch (Exception e){
             fail("Incrementing or decrementing should not throw an exception");
         }
+    }
+
+    @Test
+    public void hasAName() throws Exception {
+        assertThat(sut.getName()).isNotEmpty();
     }
 }

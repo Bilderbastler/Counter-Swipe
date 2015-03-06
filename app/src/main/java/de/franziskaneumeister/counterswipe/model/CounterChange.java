@@ -3,7 +3,10 @@ package de.franziskaneumeister.counterswipe.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
+/**
+ * Represents a change in a counter 
+ * TODO: save date of change and the numerical change in the counter
+ */
 public class CounterChange implements Parcelable{
 
     public CounterChange() {

@@ -26,9 +26,9 @@ import roboguice.inject.ContentView;
 public class CountersActivity extends RoboActionBarActivity {
     
     @Inject
-    Injector mInjector;
+    protected Injector mInjector;
     @Inject
-    private CounterFragment fragment;
+    protected CounterFragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

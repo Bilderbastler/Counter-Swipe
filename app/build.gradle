@@ -11,7 +11,7 @@ android {
     defaultConfig {
         applicationId "de.franziskaneumeister.counterswipe"
         minSdkVersion 16
-        targetSdkVersion 18 // can't go higher because of Robolectric
+        targetSdkVersion 21
         versionCode 1
         versionName "1.0"
     }

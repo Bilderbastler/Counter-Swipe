@@ -12,14 +12,15 @@ public class SwipeOverCounterHandler implements GestureDetector.OnGestureListene
 
     @Override
     public boolean onDown(MotionEvent e) {
-        Log.d("touch", "Tap went down");
-        return false;
+        return true;
     }
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        double xOffset = e1.getX() - e2.getX();
-        xOffset = Math.min(xOffset, TRANSLATION_LIMIT);
+        float xOffset =  e2.getX() - e1.getX();
+        mView.setTranslationX(xOffset);
+        if (Math.abs(xOffset) < TRANSLATION_LIMIT){
+        }
         return false;
     }
 
@@ -30,7 +31,6 @@ public class SwipeOverCounterHandler implements GestureDetector.OnGestureListene
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
-        Log.d("touch", "Tap went up");
         return false;
     }
 

@@ -1,5 +1,6 @@
 package de.franziskaneumeister.counterswipe.gestures;
 
+import android.animation.ObjectAnimator;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -7,7 +8,7 @@ import android.view.View;
 
 public class SwipeOverCounterHandler implements GestureDetector.OnGestureListener{
 
-    private static final double TRANSLATION_LIMIT = 100;
+    private static final double TRANSLATION_LIMIT = 200;
     private View mView;
 
     @Override
@@ -18,10 +19,10 @@ public class SwipeOverCounterHandler implements GestureDetector.OnGestureListene
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
         float xOffset =  e2.getX() - e1.getX();
-        mView.setTranslationX(xOffset);
-        if (Math.abs(xOffset) < TRANSLATION_LIMIT){
+        if (Math.abs(xOffset) > TRANSLATION_LIMIT){
+            //TODO increment or decremnt counter
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -36,6 +37,10 @@ public class SwipeOverCounterHandler implements GestureDetector.OnGestureListene
 
     @Override
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        float xOffset =  e2.getX() - e1.getX();
+        if (Math.abs(xOffset) < TRANSLATION_LIMIT){
+            mView.setTranslationX(xOffset);
+        }
         return false;
     }
 

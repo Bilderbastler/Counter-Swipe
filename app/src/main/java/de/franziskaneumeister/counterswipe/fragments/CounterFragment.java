@@ -1,5 +1,6 @@
 package de.franziskaneumeister.counterswipe.fragments;
 
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -57,7 +58,6 @@ public class CounterFragment extends RoboFragment implements View.OnTouchListene
         setupPlusButton(fragmentView);
         setupMinusButton(fragmentView);
         fragmentView.setOnTouchListener(this);
-        mSwipeHandler.setView(fragmentView);
         return fragmentView;
     }
 
@@ -96,7 +96,12 @@ public class CounterFragment extends RoboFragment implements View.OnTouchListene
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
+    public boolean onTouch(View targetView, MotionEvent event) {
+        mSwipeHandler.setView(targetView);
+        if(event.getActionMasked() == MotionEvent.ACTION_UP){
+            Log.d("touch", "reset view");
+            ObjectAnimator.ofFloat(getView(), View.TRANSLATION_X, 0).start();
+        }
         return mGestureDetector.onTouchEvent(event);
     }
 }

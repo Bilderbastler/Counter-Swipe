@@ -46,6 +46,7 @@ public class CounterFragment extends RoboFragment implements View.OnTouchListene
             mCounter = getArguments().getParcelable(ARG_COUNTER);
             mInjector.injectMembers(mCounter);
         }
+        mSwipeHandler.setCounter(mCounter);
         mGestureDetector = new GestureDetector(this.getActivity(), mSwipeHandler);
     }
 
@@ -99,7 +100,6 @@ public class CounterFragment extends RoboFragment implements View.OnTouchListene
     public boolean onTouch(View targetView, MotionEvent event) {
         mSwipeHandler.setView(targetView);
         if(event.getActionMasked() == MotionEvent.ACTION_UP){
-            Log.d("touch", "reset view");
             ObjectAnimator.ofFloat(getView(), View.TRANSLATION_X, 0).start();
         }
         return mGestureDetector.onTouchEvent(event);

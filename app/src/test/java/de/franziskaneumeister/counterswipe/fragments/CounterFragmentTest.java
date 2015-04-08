@@ -1,12 +1,15 @@
 package de.franziskaneumeister.counterswipe.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Injector;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,13 +18,15 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.util.FragmentTestUtil;
 
 import de.franziskaneumeister.counterswipe.R;
+import de.franziskaneumeister.counterswipe.gestures.SwipeOverCounterHandler;
 import de.franziskaneumeister.counterswipe.model.Counter;
 import roboguice.RoboGuice;
-import roboguice.inject.RoboInjector;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
 
@@ -32,18 +37,23 @@ import static org.mockito.Mockito.when;
     private Counter mCounter;
     private Button plusButton;
     private ImageButton minusButton;
+    private SwipeOverCounterHandler mHandlerMock;
 
     @Before
     public void setUp() throws Exception {
         mCounter = spy(Counter.class);
-        Context application = RuntimeEnvironment.application;
-        RoboInjector injector = RoboGuice.getInjector(application);
+        Injector injector = RoboGuice.overrideApplicationInjector(RuntimeEnvironment.application, new CounterFragmentTestModule());
         injector.injectMembers(mCounter);
         Bundle args = new Bundle();
         // only works because the bundle is a shadow implementation
         args.putParcelable(CounterFragment.ARG_COUNTER, mCounter);
         sut = new CounterFragment();
         sut.setArguments(args);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        RoboGuice.Util.reset();
     }
 
     @Test
@@ -86,10 +96,25 @@ import static org.mockito.Mockito.when;
         assertThat(text.getText()).isEqualTo(testName);
     }
 
+    @Test
+    public void FragmentConnectsCounterToTouchHandler() throws Exception {
+        showFragment();
+        verify(mHandlerMock).setCounter(mCounter);
+
+    }
+
     private void showFragment() {
         FragmentTestUtil.startVisibleFragment(sut);
         plusButton = (Button) sut.getView().findViewById(R.id.button_plus);
         minusButton = (ImageButton) sut.getView().findViewById(R.id.button_minus);
+    }
+
+    private class CounterFragmentTestModule extends AbstractModule {
+        @Override
+        protected void configure() {
+            mHandlerMock = mock(SwipeOverCounterHandler.class);
+            bind(SwipeOverCounterHandler.class).toInstance(mHandlerMock);
+        }
     }
 
 

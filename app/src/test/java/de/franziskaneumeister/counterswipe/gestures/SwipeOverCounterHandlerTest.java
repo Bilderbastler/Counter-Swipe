@@ -7,9 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-
 import de.franziskaneumeister.counterswipe.model.Counter;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -51,8 +49,4 @@ public class SwipeOverCounterHandlerTest  {
         sut.onFling(start, stop, -200, 0);
         verifyZeroInteractions(mCounterMock);
     }
-
-
-
-
 }

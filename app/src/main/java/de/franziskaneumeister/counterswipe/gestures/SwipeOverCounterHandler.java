@@ -31,9 +31,7 @@ public class SwipeOverCounterHandler implements GestureDetector.OnGestureListene
     }
 
     @Override
-    public void onShowPress(MotionEvent e) {
-
-    }
+    public void onShowPress(MotionEvent e) {}
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
@@ -50,9 +48,7 @@ public class SwipeOverCounterHandler implements GestureDetector.OnGestureListene
     }
 
     @Override
-    public void onLongPress(MotionEvent e) {
-
-    }
+    public void onLongPress(MotionEvent e) {}
 
     public void setView(View view) {
         mView = view;
@@ -62,11 +58,4 @@ public class SwipeOverCounterHandler implements GestureDetector.OnGestureListene
         this.mCounter = counter;
     }
 
-    public Counter getmCounter() {
-        return mCounter;
-    }
-
-    public void setmCounter(Counter mCounter) {
-        this.mCounter = mCounter;
-    }
 }

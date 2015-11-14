@@ -28,7 +28,6 @@ public class CounterViewHolder extends RecyclerView.ViewHolder implements View.O
         setupPlusButton(itemView);
         setupMinusButton(itemView);
         itemView.setOnTouchListener(this);
-        itemView.setOnTouchListener(this);
     }
 
     private void setupMinusButton(View fragmentView) {

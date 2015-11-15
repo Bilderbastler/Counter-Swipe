@@ -19,7 +19,7 @@ public class BuildModule extends AbstractModule {
     }
 
     @Provides
-    public CounterViewHolder provideCounterViewHolder(){
+    public BaseViewHolder provideCounterViewHolder(){
         View view = LayoutInflater.from(mAppContext).inflate();
         return new CounterViewHolder(view);
     }

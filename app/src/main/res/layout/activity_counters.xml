@@ -7,5 +7,5 @@
     android:orientation="vertical"
     tools:context=".CountersActivity"
     tools:ignore="MergeRootFrame"
-    tools:layout="@layout/fragment_counter">
+    tools:layout="@layout/listitem_counter">
 </LinearLayout>

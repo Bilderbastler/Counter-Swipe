@@ -38,7 +38,7 @@ dependencies {
     compile 'io.reactivex:rxjava:1.0.7'
     compile 'io.reactivex:rxandroid:0.24.0'
     // testing
-    testCompile "org.robolectric:robolectric:3.0-SNAPSHOT"
+    testCompile "org.robolectric:robolectric:3.1-SNAPSHOT"
     testCompile 'junit:junit:4.12'
     compile 'com.squareup.assertj:assertj-android:1.0.0' // workaround for aar - remove with Proguard on release
     testCompile 'com.squareup.assertj:assertj-android:1.0.0'

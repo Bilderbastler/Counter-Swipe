@@ -1,17 +1,13 @@
-repositories {
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
-}
-
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "de.franziskaneumeister.counterswipe"
         minSdkVersion 16
-        targetSdkVersion 21
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
@@ -23,24 +19,23 @@ android {
     }
 }
 
-apply plugin: 'android-unit-test'
-
-afterEvaluate {
-    tasks.findByName("assembleDebug").dependsOn("testDebugClasses")
-}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.0.3'
-    compile 'com.android.support:recyclerview-v7:21.0.+'
+    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile 'com.android.support:recyclerview-v7:23.1.1'
     compile 'org.roboguice:roboguice:3.0.1'
     provided 'org.roboguice:roboblender:3.0.1'
-    compile 'io.reactivex:rxjava:1.0.7'
-    compile 'io.reactivex:rxandroid:0.24.0'
+    compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'io.reactivex:rxjava:1.0.16'
+    compile 'com.trello:rxlifecycle:0.3.0'
+    compile 'com.trello:rxlifecycle-components:0.3.0'
     // testing
-    testCompile "org.robolectric:robolectric:3.1-SNAPSHOT"
+    testCompile 'com.android.support:support-annotations:23.1.1'
+    testCompile "org.robolectric:robolectric:3.0"
     testCompile 'junit:junit:4.12'
-    compile 'com.squareup.assertj:assertj-android:1.0.0' // workaround for aar - remove with Proguard on release
-    testCompile 'com.squareup.assertj:assertj-android:1.0.0'
+    compile 'com.squareup.assertj:assertj-android:1.1.1'
+    testCompile 'com.squareup.assertj:assertj-android:1.1.1'
     testCompile 'org.mockito:mockito-core:1.10.19'
+
 }

@@ -65,9 +65,9 @@ public class CounterViewHolder extends RecyclerView.ViewHolder implements View.O
         return mGestureDetector.onTouchEvent(event);
     }
 
-    public void connectToCounter(Counter counter, Context context, SwipeOverCounterHandler swipeCounterHandler) {
+    public void connectToCounter(Counter counter, SwipeOverCounterHandler swipeCounterHandler) {
         mCounter = counter;
-        setupSwipeLogic(context, swipeCounterHandler);
+        setupSwipeLogic(swipeCounterHandler);
         prepareViews();
         registerToChangesOfTheModel();
     }
@@ -91,9 +91,9 @@ public class CounterViewHolder extends RecyclerView.ViewHolder implements View.O
                 });
     }
 
-    private void setupSwipeLogic(Context context, SwipeOverCounterHandler swipeCounterHandler) {
+    private void setupSwipeLogic(SwipeOverCounterHandler swipeCounterHandler) {
         mSwipeHandler = swipeCounterHandler;
         mSwipeHandler.setCounter(mCounter);
-        mGestureDetector = new GestureDetector(context, mSwipeHandler);
+        mGestureDetector = new GestureDetector(itemView.getContext(), mSwipeHandler);
     }
 }

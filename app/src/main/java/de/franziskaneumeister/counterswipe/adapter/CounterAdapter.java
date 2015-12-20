@@ -1,15 +1,15 @@
 package de.franziskaneumeister.counterswipe.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.inject.Inject;
-import com.google.inject.Injector;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 import de.franziskaneumeister.counterswipe.R;
 import de.franziskaneumeister.counterswipe.gestures.SwipeOverCounterHandler;
@@ -18,17 +18,15 @@ import de.franziskaneumeister.counterswipe.model.Counter;
 /**
  * Adapter for a collection of countable items
  */
-public class CounterAdapter extends RecyclerView.Adapter<CounterViewHolder>{
+public class CounterAdapter extends RecyclerView.Adapter<CounterViewHolder> {
 
     private final ArrayList<Counter> mCounters;
-    private Injector mInjector;
-
+    private Provider<SwipeOverCounterHandler> mOverCounterHandlerProvider;
 
     @Inject
-    public CounterAdapter(Counter aCounter, Injector injector) {
+    public CounterAdapter(Counter aCounter) {
         mCounters = new ArrayList<Counter>();
         mCounters.add(aCounter);
-        mInjector = injector;
     }
 
     @Override
@@ -41,9 +39,8 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterViewHolder>{
     @Override
     public void onBindViewHolder(CounterViewHolder holder, int position) {
         Counter counter = mCounters.get(position);
-        Context context = mInjector.getInstance(Context.class);
-        SwipeOverCounterHandler swipeCounterHandler = mInjector.getInstance(SwipeOverCounterHandler.class);
-        holder.connectToCounter(counter, context, swipeCounterHandler);
+        SwipeOverCounterHandler swipeCounterHandler = mOverCounterHandlerProvider.get();
+        holder.connectToCounter(counter, swipeCounterHandler);
     }
 
     @Override

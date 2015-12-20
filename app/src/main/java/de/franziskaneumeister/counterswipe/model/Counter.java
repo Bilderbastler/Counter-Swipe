@@ -3,11 +3,11 @@ package de.franziskaneumeister.counterswipe.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+import javax.inject.Provider;
 
 import rx.Observable;
 import rx.subjects.BehaviorSubject;
@@ -21,11 +21,9 @@ public class Counter implements Parcelable{
     private final BehaviorSubject<Integer> mCountChangePublisher;
     private int mCount;
     private List<CounterChange> mChanges;
-
-    @Inject
-    protected Injector injector;
     private String mName;
 
+    @Inject
     public Counter(){
         mName = "unnamed Item";
         mChanges = new ArrayList<>();
@@ -50,11 +48,10 @@ public class Counter implements Parcelable{
     public void increment() {
         mCount++;
         addChange();
-        
     }
 
     private void addChange() {
-        CounterChange change = injector.getInstance(CounterChange.class);
+        CounterChange change = new CounterChange();
         mChanges.add(change);
         mCountChangePublisher.onNext(mCount);
     }

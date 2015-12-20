@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.google.inject.Inject;
 import com.google.inject.Injector;
+import com.google.inject.Provider;
 
 import de.franziskaneumeister.counterswipe.R;
 import de.franziskaneumeister.counterswipe.fragments.CounterFragment;
@@ -26,9 +27,9 @@ import roboguice.inject.ContentView;
 public class CountersActivity extends RoboActionBarActivity {
     
     @Inject
-    protected Injector mInjector;
-    @Inject
     protected CounterFragment fragment;
+    @Inject
+    Provider<Counter> mCounterProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class CountersActivity extends RoboActionBarActivity {
 
     private CounterFragment createCounterFragment() {
         Bundle args = new Bundle();
-        Counter counter = mInjector.getInstance(Counter.class);
+        Counter counter = mCounterProvider.get();
         args.putParcelable(CounterFragment.ARG_COUNTER, counter);
         fragment.setArguments(args);
         return fragment;

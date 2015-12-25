@@ -4,6 +4,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import javax.inject.Inject;
+
 import de.franziskaneumeister.counterswipe.model.Counter;
 
 public class SwipeOverCounterHandler implements GestureDetector.OnGestureListener{
@@ -11,6 +13,10 @@ public class SwipeOverCounterHandler implements GestureDetector.OnGestureListene
     private static final double TRANSLATION_LIMIT = 200;
     private View mView;
     private Counter mCounter;
+
+    @Inject
+    public SwipeOverCounterHandler() {
+    }
 
     @Override
     public boolean onDown(MotionEvent e) {

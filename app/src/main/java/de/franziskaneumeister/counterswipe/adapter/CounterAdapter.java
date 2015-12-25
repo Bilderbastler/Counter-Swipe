@@ -21,10 +21,11 @@ import de.franziskaneumeister.counterswipe.model.Counter;
 public class CounterAdapter extends RecyclerView.Adapter<CounterViewHolder> {
 
     private final ArrayList<Counter> mCounters;
-    private Provider<SwipeOverCounterHandler> mOverCounterHandlerProvider;
+    Provider<SwipeOverCounterHandler> mOverCounterHandlerProvider;
 
     @Inject
-    public CounterAdapter(Counter aCounter) {
+    public CounterAdapter(Counter aCounter, Provider<SwipeOverCounterHandler> counterHanlderProvider) {
+        mOverCounterHandlerProvider = counterHanlderProvider;
         mCounters = new ArrayList<Counter>();
         mCounters.add(aCounter);
     }

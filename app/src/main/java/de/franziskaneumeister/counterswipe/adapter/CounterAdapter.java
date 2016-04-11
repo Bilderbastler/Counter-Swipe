@@ -26,7 +26,7 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterViewHolder> {
     @Inject
     public CounterAdapter(Counter aCounter, Provider<SwipeOverCounterHandler> counterHanlderProvider) {
         mOverCounterHandlerProvider = counterHanlderProvider;
-        mCounters = new ArrayList<Counter>();
+        mCounters = new ArrayList<>();
         mCounters.add(aCounter);
     }
 

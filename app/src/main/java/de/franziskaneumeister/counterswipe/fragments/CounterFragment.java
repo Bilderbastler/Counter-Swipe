@@ -49,9 +49,4 @@ public class CounterFragment extends DaggerFragment {
         recyclerView.setAdapter(mAdapter);
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
 }

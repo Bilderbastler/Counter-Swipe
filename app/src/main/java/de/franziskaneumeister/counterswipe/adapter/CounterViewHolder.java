@@ -1,7 +1,6 @@
 package de.franziskaneumeister.counterswipe.adapter;
 
 import android.animation.ObjectAnimator;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -18,7 +17,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
 /**
- *
+ * Connects a listitem view to the logic of a counter instance
  */
 public class CounterViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener {
     private Counter mCounter;

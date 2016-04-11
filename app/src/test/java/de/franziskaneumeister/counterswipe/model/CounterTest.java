@@ -1,24 +1,25 @@
 package de.franziskaneumeister.counterswipe.model;
 
-import android.app.Application;
-import android.os.Bundle;
-
-
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
 
+import android.app.Application;
+import android.os.Build;
+import android.os.Bundle;
 
 import java.util.List;
 
+import de.franziskaneumeister.counterswipe.BuildConfig;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 public class CounterTest {
 
     private Counter sut;

@@ -3,13 +3,18 @@ package de.franziskaneumeister.counterswipe.model;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
 
+import android.os.Build;
 import android.os.Bundle;
+
+import de.franziskaneumeister.counterswipe.BuildConfig;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 public class CounterChangeTest {
 
     private CounterChange sut;

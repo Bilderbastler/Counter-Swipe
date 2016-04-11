@@ -4,15 +4,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.annotation.Config;
 import org.robolectric.shadows.support.v4.SupportFragmentTestUtil;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import de.franziskaneumeister.counterswipe.BuildConfig;
 import de.franziskaneumeister.counterswipe.R;
+import de.franziskaneumeister.counterswipe.activities.CountersActivity;
 import de.franziskaneumeister.counterswipe.gestures.SwipeOverCounterHandler;
 import de.franziskaneumeister.counterswipe.model.Counter;
 
@@ -22,7 +26,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 
-@RunWith(RobolectricTestRunner.class)
+@RunWith(RobolectricGradleTestRunner.class)
+@Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
  public class CounterFragmentTest {
 
     private CounterFragment sut;
@@ -44,6 +49,7 @@ import static org.mockito.Mockito.when;
     @After
     public void tearDown() throws Exception {
     }
+
     @Test
     public void fragmentShowsCounterValue() throws Exception {
         mCounter.increment();
@@ -88,11 +94,10 @@ import static org.mockito.Mockito.when;
     public void FragmentConnectsCounterToTouchHandler() throws Exception {
         showFragment();
         verify(mHandlerMock).setCounter(mCounter);
-
     }
 
     private void showFragment() {
-        SupportFragmentTestUtil.startVisibleFragment(sut);
+        SupportFragmentTestUtil.startVisibleFragment(sut, CountersActivity.class, R.id.container);
         plusButton = (Button) sut.getView().findViewById(R.id.button_plus);
         minusButton = (ImageButton) sut.getView().findViewById(R.id.button_minus);
     }

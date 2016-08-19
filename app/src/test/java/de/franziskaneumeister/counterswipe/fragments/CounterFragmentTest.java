@@ -16,11 +16,18 @@ import android.widget.TextView;
 
 import de.franziskaneumeister.counterswipe.BuildConfig;
 import de.franziskaneumeister.counterswipe.R;
-import de.franziskaneumeister.counterswipe.activities.CountersActivity;
 import de.franziskaneumeister.counterswipe.gestures.SwipeOverCounterHandler;
+import de.franziskaneumeister.counterswipe.injection.components.DaggerApplicationComponent;
+import de.franziskaneumeister.counterswipe.injection.components.FragmentComponent;
+import de.franziskaneumeister.counterswipe.injection.modules.ActivityModule;
+import de.franziskaneumeister.counterswipe.injection.modules.AndroidModule;
+import de.franziskaneumeister.counterswipe.injection.modules.ApplicationModule;
+import de.franziskaneumeister.counterswipe.injection.modules.FragmentModule;
 import de.franziskaneumeister.counterswipe.model.Counter;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.android.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -44,10 +51,23 @@ import static org.mockito.Mockito.when;
         args.putParcelable(CounterFragment.ARG_COUNTER, mCounter);
         sut = new CounterFragment();
         sut.setArguments(args);
+        FragmentComponent testComponent = DaggerApplicationComponent.builder()
+                .androidModule(mock(AndroidModule.class))
+                .applicationModule(mock(ApplicationModule.class))
+                .build()
+                .plus(mock(ActivityModule.class))
+                .plus(mock(FragmentModule.class));
+        sut.setComponent(testComponent);
     }
 
     @After
     public void tearDown() throws Exception {
+    }
+
+    @Test
+    public void testShouldNotBeNull() throws Exception {
+        SupportFragmentTestUtil.startVisibleFragment(sut);
+        assertThat(sut.getView()).isNotNull();
     }
 
     @Test
@@ -97,7 +117,7 @@ import static org.mockito.Mockito.when;
     }
 
     private void showFragment() {
-        SupportFragmentTestUtil.startVisibleFragment(sut, CountersActivity.class, R.id.container);
+        SupportFragmentTestUtil.startVisibleFragment(sut);
         plusButton = (Button) sut.getView().findViewById(R.id.button_plus);
         minusButton = (ImageButton) sut.getView().findViewById(R.id.button_minus);
     }

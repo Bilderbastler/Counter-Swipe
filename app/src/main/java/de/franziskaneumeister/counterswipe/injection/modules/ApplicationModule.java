@@ -14,10 +14,7 @@ public class ApplicationModule {
         mAppContext = appContext;
     }
 
-    @Provides
-    public LinearLayoutManager provideLinearLayoutManager() {
-        return new LinearLayoutManager(mAppContext, LinearLayoutManager.VERTICAL, false);
-    }
+
 
 }
 

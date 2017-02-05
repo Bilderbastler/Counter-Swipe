@@ -16,8 +16,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.test.mock.MockContext;
 
+import javax.inject.Provider;
+
 import de.franziskaneumeister.counterswipe.BuildConfig;
 import de.franziskaneumeister.counterswipe.adapter.CounterAdapter;
+import de.franziskaneumeister.counterswipe.gestures.SwipeOverCounterHandler;
 import de.franziskaneumeister.counterswipe.injection.components.DaggerApplicationComponent;
 import de.franziskaneumeister.counterswipe.injection.components.FragmentComponent;
 import de.franziskaneumeister.counterswipe.injection.modules.ActivityModule;
@@ -44,14 +47,19 @@ import static org.mockito.Mockito.verify;
     public void setUp() throws Exception {
         Application app = RuntimeEnvironment.application;
         mCounter = spy(Counter.class);
-        mCounterAdapter = spy(CounterAdapter.class);
+        mCounterAdapter = mock(CounterAdapter.class);
         Bundle args = new Bundle();
         // only works because the bundle is a shadow implementation
         args.putParcelable(CounterFragment.ARG_COUNTER, mCounter);
         sut = new CounterFragment();
         sut.setArguments(args);
         FragmentComponent testComponent = DaggerApplicationComponent.builder()
-                .androidModule(new AndroidModule(app))
+                .androidModule(new AndroidModule(app){
+                    @Override
+                    public CounterAdapter provideCounterListAdapter(Provider<SwipeOverCounterHandler> handler) {
+                        return mCounterAdapter;
+                    }
+                })
                 .applicationModule(mock(ApplicationModule.class))
                 .build()
                 .plus(mock(ActivityModule.class))

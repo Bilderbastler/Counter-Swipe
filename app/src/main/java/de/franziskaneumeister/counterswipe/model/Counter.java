@@ -23,7 +23,6 @@ public class Counter implements Parcelable{
     private List<CounterChange> mChanges;
     private String mName;
 
-    @Inject
     public Counter(){
         mName = "unnamed Item";
         mChanges = new ArrayList<>();

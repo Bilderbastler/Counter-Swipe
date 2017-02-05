@@ -16,7 +16,7 @@ public class DaggerActivity extends AppCompatActivity {
         return mComponent;
     }
 
-    protected void setComponent(ActivityComponent component) {
+    public void setComponent(ActivityComponent component) {
         mComponent = component;
     }
 

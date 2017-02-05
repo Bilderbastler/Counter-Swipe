@@ -15,8 +15,6 @@ import de.franziskaneumeister.counterswipe.model.Counter;
  */
 public class CountersActivity extends DaggerActivity {
     
-    @Inject
-    Provider<Counter> mCounterProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +33,7 @@ public class CountersActivity extends DaggerActivity {
 
     private CounterFragment createCounterFragment() {
         Bundle args = new Bundle();
-        Counter counter = mCounterProvider.get();
+        Counter counter = new Counter();
         args.putParcelable(CounterFragment.ARG_COUNTER, counter);
         CounterFragment fragment = new CounterFragment();
         fragment.setArguments(args);

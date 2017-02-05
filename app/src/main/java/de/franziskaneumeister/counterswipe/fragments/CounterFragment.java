@@ -33,6 +33,9 @@ public class CounterFragment extends DaggerFragment {
         if (getArguments() != null) {
             mCounter = getArguments().getParcelable(ARG_COUNTER);
         }
+        if (mCounter != null) {
+            mAdapter.addCounter(mCounter);
+        }
     }
 
     @Override

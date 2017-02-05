@@ -24,10 +24,9 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterViewHolder> {
     Provider<SwipeOverCounterHandler> mOverCounterHandlerProvider;
 
     @Inject
-    public CounterAdapter(Counter aCounter, Provider<SwipeOverCounterHandler> counterHanlderProvider) {
+    public CounterAdapter(Provider<SwipeOverCounterHandler> counterHanlderProvider) {
         mOverCounterHandlerProvider = counterHanlderProvider;
         mCounters = new ArrayList<>();
-        mCounters.add(aCounter);
     }
 
     @Override
@@ -47,5 +46,11 @@ public class CounterAdapter extends RecyclerView.Adapter<CounterViewHolder> {
     @Override
     public int getItemCount() {
         return mCounters.size();
+    }
+
+    public void addCounter(Counter aCounter) {
+        int position = this.mCounters.size();
+        this.mCounters.add(aCounter);
+        this.notifyItemInserted(position);
     }
 }

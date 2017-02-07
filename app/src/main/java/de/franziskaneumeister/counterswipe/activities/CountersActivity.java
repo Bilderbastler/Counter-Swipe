@@ -1,9 +1,7 @@
 package de.franziskaneumeister.counterswipe.activities;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-
-import javax.inject.Inject;
-import javax.inject.Provider;
 
 import de.franziskaneumeister.counterswipe.R;
 import de.franziskaneumeister.counterswipe.fragments.CounterFragment;
@@ -20,7 +18,7 @@ public class CountersActivity extends DaggerActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getComponent().inject(this);
-        setContentView(R.layout.activity_counters);
+        DataBindingUtil.setContentView(this, R.layout.activity_counters);
         if (savedInstanceState == null) {
             CounterFragment fragment = createCounterFragment();
             getSupportFragmentManager().beginTransaction()

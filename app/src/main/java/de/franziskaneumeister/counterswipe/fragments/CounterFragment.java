@@ -1,5 +1,7 @@
 package de.franziskaneumeister.counterswipe.fragments;
 
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +15,7 @@ import de.franziskaneumeister.counterswipe.R;
 import de.franziskaneumeister.counterswipe.adapter.CounterAdapter;
 import de.franziskaneumeister.counterswipe.injection.entrypoints.DaggerFragment;
 import de.franziskaneumeister.counterswipe.model.Counter;
+
 
 /**
  * Represents a single countable item. This fragment displays the state of a counter instance and
@@ -40,9 +43,9 @@ public class CounterFragment extends DaggerFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.fragment_counter_list, container, false);
-        prepareListOfCounters(fragmentView);
-        return fragmentView;
+        ViewDataBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_counter_list, container, false);
+        prepareListOfCounters(binding.getRoot());
+        return binding.getRoot();
     }
 
     private void prepareListOfCounters(View fragmentView) {

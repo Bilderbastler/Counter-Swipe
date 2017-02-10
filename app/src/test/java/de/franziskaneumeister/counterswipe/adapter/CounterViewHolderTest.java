@@ -1,8 +1,12 @@
 package de.franziskaneumeister.counterswipe.adapter;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
@@ -30,8 +34,11 @@ import static org.mockito.Mockito.when;
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 public class CounterViewHolderTest {
 
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
+
     private CounterViewHolder sut;
-    private SwipeOverCounterHandler mSwipeHandler;
+    @Mock SwipeOverCounterHandler mSwipeHandler;
     private Counter mCounter;
     private Button mPlusButton;
     private ImageButton mMinusButton;
@@ -42,7 +49,6 @@ public class CounterViewHolderTest {
         Context app = RuntimeEnvironment.application;
         View view = LayoutInflater.from(app).inflate(R.layout.listitem_counter, null);
         sut = new CounterViewHolder(view);
-        mSwipeHandler = mock(SwipeOverCounterHandler.class);
         mCounter = spy(Counter.class);
         connectWithCounter();
         mPlusButton = (Button) view.findViewById(R.id.button_plus);

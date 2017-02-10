@@ -2,8 +2,12 @@ package de.franziskaneumeister.counterswipe.fragments;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
@@ -18,6 +22,7 @@ import android.test.mock.MockContext;
 
 import javax.inject.Provider;
 
+import dagger.Module;
 import de.franziskaneumeister.counterswipe.BuildConfig;
 import de.franziskaneumeister.counterswipe.adapter.CounterAdapter;
 import de.franziskaneumeister.counterswipe.gestures.SwipeOverCounterHandler;
@@ -39,32 +44,26 @@ import static org.mockito.Mockito.verify;
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
  public class CounterFragmentTest {
 
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
+
     private CounterFragment sut;
     private Counter mCounter;
-    private CounterAdapter mCounterAdapter;
+    @Mock CounterAdapter mCounterAdapter;
+    @Mock FragmentComponent mComponent;
 
     @Before
     public void setUp() throws Exception {
         Application app = RuntimeEnvironment.application;
         mCounter = spy(Counter.class);
-        mCounterAdapter = mock(CounterAdapter.class);
         Bundle args = new Bundle();
         // only works because the bundle is a shadow implementation
         args.putParcelable(CounterFragment.ARG_COUNTER, mCounter);
         sut = new CounterFragment();
         sut.setArguments(args);
-        FragmentComponent testComponent = DaggerApplicationComponent.builder()
-                .androidModule(new AndroidModule(app){
-                    @Override
-                    public CounterAdapter provideCounterListAdapter(Provider<SwipeOverCounterHandler> handler) {
-                        return mCounterAdapter;
-                    }
-                })
-                .applicationModule(mock(ApplicationModule.class))
-                .build()
-                .plus(mock(ActivityModule.class))
-                .plus(mock(FragmentModule.class));
-        sut.setComponent(testComponent);
+        sut.mAdapter = mCounterAdapter;
+        sut.mLinearLayoutManager = new LinearLayoutManager(app);
+        sut.setComponent(mComponent);
     }
 
     @After

@@ -1,8 +1,12 @@
 package de.franziskaneumeister.counterswipe.gestures;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
@@ -20,15 +24,18 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 @RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class, sdk = Build.VERSION_CODES.LOLLIPOP)
 public class SwipeOverCounterHandlerTest  {
+
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
+
     private SwipeOverCounterHandler sut;
-    private Counter mCounterMock;
+    @Mock Counter mCounterMock;
+    @Mock View mView;
 
     @Before
     public void setUp() throws Exception {
         sut = new SwipeOverCounterHandler();
-        View mockView = mock(View.class);
-        sut.setView(mockView);
-        mCounterMock = mock(Counter.class);
+        sut.setView(mView);
         sut.setCounter(mCounterMock);
     }
 
